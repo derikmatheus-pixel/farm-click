@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Farm Click - Protótipo</title>
+
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/game.css">
+    <link rel="stylesheet" href="css/hud.css">
+    <link rel="stylesheet" href="css/inventory.css">
+    <link rel="stylesheet" href="css/battle.css">
+</head>
+<body>
+
+    <h1 class="titulo">Farm Click (Protótipo)</h1>
+    <p class="subtitulo">Clique no cenário para mover o personagem.</p>
+
+    <!-- HUD -->
+    <div id="hud">
+        <div id="hud-xp" class="hud-xp">Nv. 1 | XP 0/20</div>
+        <button id="btn-inventory">Inventário</button>
+    </div>
+
+    <!-- ÁREA DO JOGO -->
+    <div id="game-area">
+        <!-- MAPA 1 -->
+        <div id="map1" class="map active">
+
+            <!-- Campos -->
+            <div class="field field-left"></div>
+            <div class="field field-right"></div>
+
+            <!-- Lago -->
+            <div class="lake"></div>
+
+            <!-- Caminhos principais -->
+            <div class="path path-vertical"></div>
+            <div class="path path-horizontal main"></div>
+
+            <!-- Caminho extra -->
+            <div class="path extra" style="top: 320px; left: 80px; width: 70%;"></div>
+
+            <!-- Casa principal (interativa) -->
+            <div id="house-main" class="house"></div>
+
+            <!-- Casas de cenário -->
+            <div class="house-small" style="left: 40px; top: 330px;"></div>
+            <div class="house-small" style="right: 40px; top: 80px;"></div>
+
+            <!-- Árvores -->
+            <div class="tree" style="left: 80px; top: 80px;"></div>
+            <div class="tree" style="left: 140px; top: 110px;"></div>
+            <div class="tree" style="left: 220px; top: 70px;"></div>
+            <div class="tree" style="right: 260px; top: 140px;"></div>
+            <div class="tree" style="right: 120px; top: 160px;"></div>
+
+            <!-- Pedra -->
+            <div class="stone" style="left: 310px; top: 250px;"></div>
+
+            <!-- Inimigos (espantalhos) -->
+            <div class="enemy enemy-espantalho" data-maxhp="20" data-xp="15" style="left: 280px; top: 140px;"></div>
+            <div class="enemy enemy-espantalho" data-maxhp="18" data-xp="12" style="left: 420px; top: 210px;"></div>
+            <div class="enemy enemy-espantalho" data-maxhp="25" data-xp="20" style="left: 160px; top: 200px;"></div>
+            <div class="enemy enemy-espantalho" data-maxhp="22" data-xp="18" style="right: 160px; top: 260px;"></div>
+
+            <!-- Portal para o Mapa 2 -->
+            <div id="portal-map2" class="portal" title="Ir para o Campo do Norte"></div>
+
+            <!-- Torre, ruínas, círculo de pedras, fogueira -->
+            <div class="tower" style="left: 80px; top: 40px;"></div>
+            <div class="ruin ruin-right"></div>
+
+            <div class="stone-circle">
+                <div style="left: 50px; top: 8px;"></div>
+                <div style="left: 20px; top: 30px;"></div>
+                <div style="left: 80px; top: 32px;"></div>
+            </div>
+
+            <div class="campfire"></div>
+        </div>
+
+        <!-- MAPA 2 -->
+        <div id="map2" class="map">
+            <div class="field2"></div>
+
+            <div class="tree" style="left: 120px; top: 120px;"></div>
+            <div class="tree" style="left: 480px; top: 160px;"></div>
+            <div class="tree" style="left: 360px; top: 260px;"></div>
+
+            <!-- Pier simples usando dock.png -->
+            <div class="dock"></div>
+
+            <!-- Portal de volta -->
+            <div id="portal-map1" class="portal portal-back" title="Voltar para a Fazenda"></div>
+        </div>
+
+        <!-- Player -->
+        <div id="player"></div>
+
+        <!-- Overlay dia/noite -->
+        <div id="day-night-overlay"></div>
+    </div>
+
+    <!-- MENU DA CASA (com Craft) -->
+    <div id="house-menu" class="modal hidden">
+        <div class="modal-content">
+            <h2>Casa da Fazenda</h2>
+            <p>Você pode descansar e usar a bancada de criação.</p>
+
+            <div id="crafting-area">
+                <h3>Bancada de Craft</h3>
+                <p class="craft-desc">
+                    Use madeira e pedra para forjar uma <strong>Espada Simples</strong>.
+                </p>
+
+                <div class="craft-recipe">
+                    <div class="craft-item">Tronco: <span data-req="tronco">3</span></div>
+                    <div class="craft-item">Galho: <span data-req="galho">2</span></div>
+                    <div class="craft-item">Pedra: <span data-req="pedra">2</span></div>
+                </div>
+
+                <button id="btn-craft-sword">Forjar Espada</button>
+                <div id="craft-feedback" class="craft-feedback"></div>
+            </div>
+
+            <button id="close-house-menu">Fechar</button>
+        </div>
+    </div>
+
+    <!-- INVENTÁRIO -->
+    <div id="inventory-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>Inventário</h2>
+            <div id="inventory-grid" class="inventory-grid"></div>
+            <button id="close-inventory">Fechar</button>
+        </div>
+    </div>
+
+    <!-- BATALHA -->
+    <div id="battle-screen" class="battle hidden">
+        <div class="battle-panel">
+            <h2>Batalha contra Espantalho!</h2>
+
+            <div class="battle-environment">
+                <div class="battle-player-icon"></div>
+                <div class="battle-enemy-icon"></div>
+            </div>
+
+            <div class="battle-status">
+                <div class="battle-entity">
+                    <h3>Você <span id="player-level-text" class="level-tag"></span></h3>
+                    <div class="hp-bar">
+                        <div id="player-hp-bar" class="hp-fill"></div>
+                    </div>
+                    <span id="player-hp-text"></span>
+                    <div id="player-xp-text" class="xp-text"></div>
+                </div>
+
+                <div class="battle-entity">
+                    <h3 id="enemy-name-text">Espantalho</h3>
+                    <div class="hp-bar">
+                        <div id="enemy-hp-bar" class="hp-fill"></div>
+                    </div>
+                    <span id="enemy-hp-text"></span>
+                </div>
+            </div>
+
+            <div id="battle-log" class="battle-log">
+                Clique em um golpe para começar.
+            </div>
+
+            <div class="battle-moves">
+                <button class="move-btn" id="move-slot-1"></button>
+                <button class="move-btn" id="move-slot-2"></button>
+                <button class="move-btn" id="move-slot-3"></button>
+                <button class="move-btn" id="move-slot-4"></button>
+            </div>
+
+            <div class="battle-actions">
+                <button id="btn-run">Fugir</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts principais (mantendo os nomes que você já tem) -->
+    <script src="js/player.js"></script>
+    <script src="js/time.js"></script>
+    <script src="js/inventory.js"></script>
+    <script src="js/battle.js"></script>
+    <script src="js/interactions.js"></script>
+</body>
+</html>

@@ -1,0 +1,179 @@
+/* TELA DE BATALHA (overlay) */
+#battle-screen.battle {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+#battle-screen.hidden {
+    display: none;
+}
+
+.battle-panel {
+    background: #222;
+    border-radius: 10px;
+    padding: 16px 20px;
+    width: 380px;
+    box-shadow: 0 0 18px rgba(0,0,0,0.8);
+}
+
+/* Título */
+.battle-panel h2 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* Ambiente da luta (fundo da arena) */
+.battle-environment {
+    position: relative;
+    height: 90px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: linear-gradient(#5c87e5 0%, #5c87e5 50%, #8bc34a 50%, #7cb342 100%);
+    border: 2px solid #111;
+}
+
+/* "Chão" do jogador e inimigo */
+.battle-player-icon,
+.battle-enemy-icon {
+    position: absolute;
+    bottom: 8px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+/* Player: círculo azul */
+.battle-player-icon {
+    left: 50px;
+    background: #42a5f5;
+    border: 3px solid #0d47a1;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.3);
+}
+
+/* Inimigo: espantalho simplificado */
+.battle-enemy-icon {
+    right: 50px;
+    background: #d7ccc8;
+    border: 3px solid #5d4037;
+    box-shadow: 0 4px 0 rgba(0,0,0,0.3);
+}
+
+/* "Cabeça" do espantalho */
+.battle-enemy-icon::before {
+    content: "";
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #ffe0b2;
+    border: 2px solid #5d4037;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+/* STATUS (HP, XP) */
+.battle-status {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.battle-entity h3 {
+    margin: 0 0 4px 0;
+    font-size: 14px;
+}
+
+.level-tag {
+    font-size: 11px;
+    color: #ffeb3b;
+    margin-left: 4px;
+}
+
+.hp-bar {
+    width: 150px;
+    height: 10px;
+    border-radius: 5px;
+    background: #555;
+    overflow: hidden;
+    margin-bottom: 2px;
+}
+
+.hp-fill {
+    height: 100%;
+    background: #66bb6a;
+    width: 100%;
+}
+
+.xp-text {
+    font-size: 11px;
+    color: #ffecb3;
+}
+
+/* LOG DA BATALHA */
+.battle-log {
+    background: #111;
+    border-radius: 6px;
+    padding: 8px;
+    min-height: 48px;
+    margin-bottom: 10px;
+    font-size: 13px;
+}
+
+/* GOLPES (4 BOTÕES) */
+.battle-moves {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+    margin-bottom: 10px;
+}
+
+.move-btn {
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: none;
+    background: #455a64;
+    color: #fff;
+    font-size: 13px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.move-btn:hover:not(.locked):not(:disabled) {
+    background: #607d8b;
+}
+
+.move-btn.locked,
+.move-btn:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+/* AÇÕES FINAIS (FUGIR) */
+.battle-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.battle-actions button {
+    padding: 6px 12px;
+    border-radius: 4px;
+    border: none;
+    background: #c96f5f;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.battle-actions button:hover {
+    background: #e07f6c;
+}
